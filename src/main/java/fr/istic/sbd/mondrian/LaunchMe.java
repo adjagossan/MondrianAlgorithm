@@ -11,14 +11,14 @@ public class LaunchMe {
 	
 	public static void main(String[] args) 
 	{       
-		toString(createDataSet(6, new int[]{3,10}, new int[]{15,20}, 4));		
+		toString(DataSetHelper.createDataSet(6, new int[]{3,10}, new int[]{15,20}, 4));		
 	}
 	
 	public static void toString(List<Data> dataSet){
 		for(Data data : dataSet)
 			System.out.println(data.toString());
 	}
-	
+	/*
 	private static List<Data> createDataSet(int dataSetLength, int[] rangeForFirstQid, int[] rangeForLastQid, int randomStringSetLength)
 	{
 		int randomNumberForFirstQid;
@@ -77,5 +77,5 @@ public class LaunchMe {
 		return false;
 	}
 	
-	
+	*/
 }
