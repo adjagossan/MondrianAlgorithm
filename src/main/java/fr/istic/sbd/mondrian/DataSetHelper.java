@@ -19,26 +19,21 @@ public class DataSetHelper {
         String randomStringForSensitiveData;
         QID qid;
         BufferedWriter bw = null;
-        try
-        {
+        try {
             bw = getDataSetFile("dataset");
-            for (int IdRowDataSet = 1; IdRowDataSet <= dataSetLength; IdRowDataSet++)
-            {
+            for (int IdRowDataSet = 1; IdRowDataSet <= dataSetLength; IdRowDataSet++) {
                 randomNumberForFirstQid = getRandomNumberInRange(rangeForFirstQid);
                 randomNumberForLastQid = getRandomNumberInRange(rangeForLastQid);
                 qid = new QID(randomNumberForFirstQid, randomNumberForLastQid);
-                bw.append(qid.getFirstQid()+", "+qid.getSecondQid()+" \n");
+                bw.append(qid.getFirstQid() + ", " + qid.getSecondQid() + " \n");
                 randomStringForSensitiveData = randomStringSet.get(getRandomNumberInRange(new int[]{1, randomStringSetLength}) - 1);
                 data = new Data(IdRowDataSet, qid, randomStringForSensitiveData);
                 dataSet.add(data);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        } 
-        finally
-        {
-            try
-            {
+        } finally {
+            try {
                 bw.flush();
                 bw.close();
             } catch (IOException ex) {
