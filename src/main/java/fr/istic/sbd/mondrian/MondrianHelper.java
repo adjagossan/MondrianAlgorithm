@@ -4,6 +4,7 @@ import java.util.*;
 
 public class MondrianHelper
 {
+    private static int numberOfDivision = 0;    
     private enum dimension {
         first, second
     };
@@ -21,7 +22,7 @@ public class MondrianHelper
     }
     
     public static List<EquivalenceClass> mondrian(List<Data> dataSet, int k)
-    {   System.out.println("** mondrian **");
+    { 
         DataSetHelper.toString(dataSet);
         dimension dim;
         SortedMap<Integer, Integer> fq;
@@ -33,14 +34,11 @@ public class MondrianHelper
         else
         {
             dim = chooseDimension(dataSet);
-            System.out.println("dim "+ dim);
             fq = frequencySet(dataSet, dim);
             median = findMedian(fq);
             leftPartition = getLeftOrRigthPartition(dataSet, dim, median, side.left);
             rigthPartition = getLeftOrRigthPartition(dataSet, dim, median, side.right);
-            System.out.println("** left **");
             DataSetHelper.toString(leftPartition);
-            System.out.println("** rigth **");
             DataSetHelper.toString(rigthPartition);
             mondrian(leftPartition, k);
             mondrian(rigthPartition, k);
@@ -48,6 +46,16 @@ public class MondrianHelper
         return null;
     }
     
+    /**
+     * 
+     * @param dataSet
+     * @param dim
+     * @param splitVal
+     * @param s
+     * 
+     * renvoie tout n-uplet de la partition courante 'dataSet' dont la valeur
+     * sur la dimension 'dim' choisie est inferieure ou égale à la médiane 'splitVal'
+     */
     public static List<Data> getLeftOrRigthPartition(List<Data> dataSet, dimension dim, int splitVal, side s)
     {
         List<Data> partition = new ArrayList<Data>();
@@ -74,24 +82,20 @@ public class MondrianHelper
         return partition;
     }
     
+    /**
+     * 
+     * @param dataSet
+     * @param k
+     * @return boolean
+     */
     public static boolean allowable(List<Data> dataSet, int k)
     {
        return (dataSet.size() >= 2*k);
-        /*List<Integer> qidValues = null;
-        switch(dim)
-        {
-            case first:
-                    qidValues = getFirstQidValues(dataSet);
-                break;
-            case second:
-                    qidValues = getSecondQidValues(dataSet);
-                break;
-        }
-        Collections.sort(qidValues);
-        int size = qidValues.size();
-        return ((qidValues.subList(0, (size/2)).size() >= k) && (qidValues.subList((size/2), size).size() >= k));*/ 
-    }
+     }
     
+    /*
+     * retoune la médiane de l'histogramme des n-uplets sur la dimension choisie
+     */
     public static int findMedian(SortedMap<Integer, Integer> frequencySet)
     {
         List<Integer> cumulateValues = new ArrayList<Integer>();
@@ -116,11 +120,11 @@ public class MondrianHelper
                 if(val.intValue() <= (size / 2))
                 {
                     index++;
-                    System.out.println("index "+index);
+                    
                 }
             }
             for(int j = 1; j <= (index+1); j++){
-                System.out.println("j** "+j);
+                
                 if(keySetIterator.hasNext())
                 {
                     if(j >= index){
@@ -138,7 +142,7 @@ public class MondrianHelper
             {
                 if(val.intValue() <= ((size + 1) / 2)){
                     index++;
-                    System.out.println("index "+index);
+                    
                 }
             }
             for(int j = 1; j <= index; j++)
@@ -152,11 +156,20 @@ public class MondrianHelper
                 }
             }
         }
-        System.out.println("median** "+median);
+        numberOfDivision++;
         return median;
     }
     
-    
+   /**
+    * 
+    * renvoie le nombre de divisions efectués
+    */
+    public static int getNumberOfDivision(){
+        return numberOfDivision;
+    }
+    /*
+     * cette fonction retourne l'histogramme des n-uplets sur la dimension choisie
+     */
     public static SortedMap<Integer, Integer> frequencySet(List<Data> dataSet, dimension dim) {
         List<Integer> selectedDimensionValues = null;
 
@@ -192,7 +205,9 @@ public class MondrianHelper
         } while (selectedDimensionValues.size() > 0);
         return histogram;
     }
-
+    /*
+     * cette fonction retourne la dimension sur laquelle notre decoupe aura lieu
+     */
     public static dimension chooseDimension(List<Data> currentPartition)
     {
         List<Integer> firstQidValues = getFirstQidValues(currentPartition);
@@ -206,23 +221,25 @@ public class MondrianHelper
         }
     }
     
+    /**
+     * renvoie la liste des classes d'equivalence
+     * @param dataSet
+     * @return 
+     */
     public static List<EquivalenceClass> getEquivalenceClass(List<Data> dataSet)
     {
-        System.out.println("** getEquivalenceClass **");
         DataSetHelper.toString(dataSet);
         List<Integer> firstQidValues = getFirstQidValues(dataSet);
         List<Integer> secondQidValues = getSecondQidValues(dataSet);
-        System.out.println("firstQidValues "+firstQidValues.size()+" secondQidValues "+secondQidValues.size());
-        
-        int maxFirstQidValues = ((int)Collections.max(firstQidValues));
-       
-        int minFirstQidValues = (int)Collections.min(firstQidValues);
-       
-        
-        int maxSecondQidValues = (int)Collections.max(secondQidValues);
-        int minSecondQidValues = (int)Collections.min(secondQidValues);
-        equivalenceClassList.add(new EquivalenceClass(new Range(minFirstQidValues, 
-                maxFirstQidValues), new Range(minSecondQidValues, maxSecondQidValues)));
+        if((firstQidValues.size() > 0) && (secondQidValues.size()>0))
+        {
+            int maxFirstQidValues = ((int)Collections.max(firstQidValues));
+            int minFirstQidValues = (int)Collections.min(firstQidValues);
+            int maxSecondQidValues = (int)Collections.max(secondQidValues);
+            int minSecondQidValues = (int)Collections.min(secondQidValues);
+            equivalenceClassList.add(new EquivalenceClass(new Range(minFirstQidValues, 
+                    maxFirstQidValues), new Range(minSecondQidValues, maxSecondQidValues)));
+        }
         return equivalenceClassList;
     }
     

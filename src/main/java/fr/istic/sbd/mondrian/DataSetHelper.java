@@ -10,9 +10,8 @@ public class DataSetHelper {
     private static List<Data> dataSet = new ArrayList<Data>();
     private static Data data;
     private final static int rangeLengthMax = 2;
-    private final static int randomStringLength = 4;
 
-    public static List<Data> createDataSet(int dataSetLength, int[] rangeForFirstQid, int[] rangeForLastQid, int randomStringSetLength) {
+    public static List<Data> createDataSet(int dataSetLength, int[] rangeForFirstQid, int[] rangeForLastQid, int randomStringSetLength, int randomStringLength) {
         int randomNumberForFirstQid;
         int randomNumberForLastQid;
         List<String> randomStringSet = getRandomStringSet(randomStringSetLength, randomStringLength);

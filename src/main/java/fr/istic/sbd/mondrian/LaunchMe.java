@@ -2,42 +2,63 @@ package fr.istic.sbd.mondrian;
 
 import java.util.*;
 
-public class LaunchMe {
-
-    private static List<Data> dataSet = new ArrayList<Data>();
-    private static Data data;
-    private final static int rangeLengthMax = 2;
-    private final static int randomStringLength = 4;
-
-    public static void main(String[] args) {
-        List<Data> data = DataSetHelper.createDataSet(6, new int[]{3, 20}, new int[]{5, 25}, 4);
-        //toStringt(data);
-        MondrianHelper.mondrian(data, 2);
+public class LaunchMe 
+{ 
+    public static void main(String[] args)
+    {
+        /**
+         * on définit le parametere de confidentialité k
+         */
+        int k = 2;
+        /*
+         * on definit ici la cardinalite 'n' du jeu de données 
+         */
+        int n = 4;
+        /**
+         * on definit ici la borne du premier attribut de notre QID
+         * Tableau d'entier
+         */
+        int[] firstQidValues = new int[]{75001, 75005};
+        /**
+         * on definit ici la borne du second attribut de notre QID
+         * Tableau d'entier
+         */
+        int[] secondQidValues = new int[]{20, 25};
+        /**
+         * on définit ici le nombre de valeurs distictes de nos données sensibles qui sont
+         * générées aléatoirement
+         */
+        int randomStringSetLength = 5;
+        /**
+         * on definit ici le nombre de caracteres de nos données sensibles générées 
+         */
+        int randomStringLength = 5;
+        /**
+         * ici génération de notre jeu de données
+         * avec ecriture des quasi-identifiants dans le fichier dataset.csv 
+         */
+        List<Data> data = DataSetHelper.createDataSet(n, firstQidValues, secondQidValues, randomStringSetLength, randomStringLength);
+        System.out.println("Affichage de notre jeu de données");
+        /**
+         * Affichage du jeu de données généré
+         */
+        DataSetHelper.toString(data);
+        /**
+         * Appelle de la fonction mondrian
+         * avec le jeu de données et le paramètre de confidentialité
+         * en paramètre
+         */
+        MondrianHelper.mondrian(data, k);
+        
+        System.out.println("Affichage de nos classes d'équivalence");
+        /**
+         * Affichage des classes d'équivalence
+         */
         MondrianHelper.display();
-        //toString(MondrianHelper.chooseDimension(data));
-        //MondrianHelper.readDataSetCsvFile("dataset.csv");
-        //System.out.println(MondrianHelper.chooseDimension());
-        //7-7-8-10-11-14 
-        //SortedMap<Integer, Integer> frequencySet = new TreeMap<Integer, Integer>();
-        //frequencySet.put(6, 2);
-        //frequencySet.put(7, 3);
-        //frequencySet.put(8, 4);
-        //frequencySet.put(10, 5);
-        //frequencySet.put(12, 3);
-        //System.out.println("Med "+MondrianHelper.findMedian(frequencySet));
-       // System.out.println(MondrianHelper.chooseDimension(data));
-    }
-
-    public static void toString(List<Integer> dataSet){
-        for (Integer data : dataSet) {
-            System.out.println(data.toString());
-        }
-    }
-    
-    public static void toStringt(List<Data> dataSet){
-        for (Data data : dataSet) {
-            System.out.println(data.toString());
-        }
+        /**
+         * Affichage du nombre de division effectuée
+         */
+        System.out.println("Nombre divisions effectuées: "+MondrianHelper.getNumberOfDivision());
     }
         
 }
