@@ -92,5 +92,11 @@ public class DataSetHelper {
         }
         return bw;
     }
+    
+    public static void toString(List<Data> dataSet){
+        for(Data data : dataSet){
+            System.out.println(data.toString());
+        }
+    }
 }
 //}

@@ -6,6 +6,30 @@ public class Data
 	private QID qid;
 	private String str;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public QID getQid() {
+        return qid;
+    }
+
+    public void setQid(QID qid) {
+        this.qid = qid;
+    }
+
+    public String getStr() {
+        return str;
+    }
+
+    public void setStr(String str) {
+        this.str = str;
+    }
+
 	public Data(int id, QID qid, String str)
 	{
 		this.id = id;
