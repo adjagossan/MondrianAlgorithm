@@ -13,17 +13,17 @@ public class LaunchMe
         /*
          * on definit ici la cardinalite 'n' du jeu de données 
          */
-        int n = 4;
+        int n = 3;
         /**
          * on definit ici la borne du premier attribut de notre QID
          * Tableau d'entier
          */
-        int[] firstQidValues = new int[]{75001, 75005};
+        int[] firstQidValues = new int[]{1, 10};
         /**
          * on definit ici la borne du second attribut de notre QID
          * Tableau d'entier
          */
-        int[] secondQidValues = new int[]{20, 25};
+        int[] secondQidValues = new int[]{4, 9};
         /**
          * on définit ici le nombre de valeurs distictes de nos données sensibles qui sont
          * générées aléatoirement
